@@ -30,6 +30,7 @@ namespace QLinkCleanerV2
             {
                 // 在UI线程上调用 Show 方法
                 Show();
+                ShowInTaskbar = false;
                 string strategyStr = strategy switch
                 {
                     WatcherStrategy.All => $"全面拦截模式 ({strategy})",
@@ -47,6 +48,7 @@ namespace QLinkCleanerV2
                         $"拦截策略：{strategyStr}\n" +
                         $"桌面类型：{desktopTypeStr}";
                 materialMultiLineTextBox_Tips.Text = tips;
+                materialMultiLineTextBox_Tips.ReadOnly = true;
                 timer_Countdown.Start();
             }
         }

@@ -102,7 +102,7 @@ namespace QLinkCleanerV2
             string ex_trace_dir = "exception_trace";
             if (!Directory.Exists(ex_trace_dir))
                 Directory.CreateDirectory(ex_trace_dir);
-            return $@"{ex_trace_dir}\app.unhandled_exception.stack_trace.{DateTime.Now:yyyy-MM-dd_hh-mm-ss}.txt";
+            return $@"{ex_trace_dir}\app.unhandled_exception.stack_trace.{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.txt";
         }
 
         /// <summary>

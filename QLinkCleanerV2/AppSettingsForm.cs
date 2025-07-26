@@ -1,5 +1,6 @@
 ﻿using Carlos.Extends;
 using MaterialSkin.Controls;
+using QLinkCleanerV2.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,15 +17,24 @@ namespace QLinkCleanerV2
 {
     public partial class AppSettingsForm : MaterialForm
     {
+        //private string _logFilePath;
+        private readonly LogHelper _log;
         public AppSettingsForm()
         {
             InitializeComponent();
+        }
+        public AppSettingsForm(string logFilePath) : this()
+        {
+            InitializeComponent();
+            _log = new LogHelper(logFilePath);
         }
 
         private void AppSettingsForm_Load(object sender, EventArgs e)
         {
             materialSwitch_Startup.Checked = Properties.Settings.Default.App_FollowSystemStartup;
         }
+
+        private void Log(string category, LogLevel level, string message) => _log.Record(category, level, message);
 
         private void materialSwitch_Startup_CheckedChanged(object sender, EventArgs e)
         {
@@ -33,11 +43,13 @@ namespace QLinkCleanerV2
             {
                 // 添加到系统启动项
                 AddToStartup();
+                Log("App", LogLevel.Info, "应用程序已添加到系统启动项。");
             }
             else
             {
                 // 从系统启动项中移除
                 RemoveFromStartup();
+                Log("App", LogLevel.Info, "应用程序已从系统启动项中移除。");
             }
         }
         private static void AddToStartup()

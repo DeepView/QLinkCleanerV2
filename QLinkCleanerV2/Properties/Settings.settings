@@ -15,7 +15,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="App_FollowSystemStartup" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="App_MaxRetryTimesWithDelShortcut" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">500</Value>
     </Setting>
   </Settings>
 </SettingsFile>

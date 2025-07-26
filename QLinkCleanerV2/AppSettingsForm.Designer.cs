@@ -30,6 +30,7 @@
         {
             materialSwitch_Startup = new MaterialSkin.Controls.MaterialSwitch();
             materialButton_AboutThis = new MaterialSkin.Controls.MaterialButton();
+            materialSlider_RetryTimes = new MaterialSkin.Controls.MaterialSlider();
             SuspendLayout();
             // 
             // materialSwitch_Startup
@@ -46,7 +47,6 @@
             materialSwitch_Startup.TabIndex = 0;
             materialSwitch_Startup.Text = "登录Windows之后自动启动\r\n";
             materialSwitch_Startup.UseVisualStyleBackColor = true;
-            materialSwitch_Startup.CheckedChanged += materialSwitch_Startup_CheckedChanged;
             // 
             // materialButton_AboutThis
             // 
@@ -68,11 +68,29 @@
             materialButton_AboutThis.UseVisualStyleBackColor = true;
             materialButton_AboutThis.Click += materialButton_AboutThis_Click;
             // 
+            // materialSlider_RetryTimes
+            // 
+            materialSlider_RetryTimes.Depth = 0;
+            materialSlider_RetryTimes.ForeColor = Color.FromArgb(222, 0, 0, 0);
+            materialSlider_RetryTimes.Location = new Point(21, 116);
+            materialSlider_RetryTimes.MouseState = MaterialSkin.MouseState.HOVER;
+            materialSlider_RetryTimes.Name = "materialSlider_RetryTimes";
+            materialSlider_RetryTimes.RangeMax = 1000;
+            materialSlider_RetryTimes.Size = new Size(434, 40);
+            materialSlider_RetryTimes.TabIndex = 2;
+            materialSlider_RetryTimes.Text = "删除快捷方式的最大重试次数";
+            materialSlider_RetryTimes.Value = 500;
+            materialSlider_RetryTimes.ValueMax = 1000;
+            materialSlider_RetryTimes.ValueSuffix = "次";
+            materialSlider_RetryTimes.onValueChanged += materialSlider_RetryTimes_onValueChanged;
+            materialSlider_RetryTimes.Click += materialSlider_RetryTimes_Click;
+            // 
             // AppSettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(487, 346);
+            Controls.Add(materialSlider_RetryTimes);
             Controls.Add(materialButton_AboutThis);
             Controls.Add(materialSwitch_Startup);
             MaximizeBox = false;
@@ -89,5 +107,6 @@
 
         private MaterialSkin.Controls.MaterialSwitch materialSwitch_Startup;
         private MaterialSkin.Controls.MaterialButton materialButton_AboutThis;
+        private MaterialSkin.Controls.MaterialSlider materialSlider_RetryTimes;
     }
 }

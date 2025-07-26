@@ -263,7 +263,7 @@ namespace QLinkCleanerV2
 
         private void pictureBox_Configure_Click(object sender, EventArgs e)
         {
-            AppSettingsForm appSettingsForm = new();
+            AppSettingsForm appSettingsForm = new(_log);
             appSettingsForm.ShowDialog();
         }
     }

@@ -117,6 +117,9 @@ namespace QLinkCleanerV2.Core
         }
         public void RemoveShortcut(string file, DesktopType desktopType)
         {
+            bool isDeleted = false;
+            int loopCount = 0;
+            int maxLoopCount = Properties.Settings.Default.App_MaxRetryTimesWithDelShortcut;
             string dir_usr = @"removed\user";
             string dir_pub = @"removed\public";
             if (!Directory.Exists(dir_usr))
@@ -124,8 +127,27 @@ namespace QLinkCleanerV2.Core
             if (!Directory.Exists(dir_pub))
                 Directory.CreateDirectory(dir_pub);
             string filename = Path.GetFileName(file);
-            File.Copy(file, $@"removed\{desktopType.ToString().ToLower()}\{filename}", true);
-            File.Delete(file);
+            do
+            {
+                try
+                {
+                    File.Copy(file, $@"removed\{desktopType.ToString().ToLower()}\{filename}", true);
+                    File.Delete(file);
+                }
+                catch (Exception throwedException)
+                {
+                    if (throwedException != null)
+                    {
+                        loopCount++;
+                        if (loopCount > maxLoopCount)
+                        {
+                            Log("Watcher", LogLevel.Error, $"无法删除快捷方式文件：{file}。尝试删除的次数：{loopCount}");
+                            return;// 重试次数超过指定次数，强行退出循环，并退出方法。
+                        }
+                        Thread.Sleep(100); // 等待1秒后重试
+                    }
+                }
+            } while (File.Exists(file));
         }
         /// <summary>
         /// 用户桌面监视事件处理方法。

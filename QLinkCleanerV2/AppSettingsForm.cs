@@ -18,20 +18,22 @@ namespace QLinkCleanerV2
     public partial class AppSettingsForm : MaterialForm
     {
         //private string _logFilePath;
-        private readonly LogHelper _log;
+        private bool _isChanged = false; // 用于跟踪设置是否已更改
+        private LogHelper _log;
         public AppSettingsForm()
         {
             InitializeComponent();
         }
-        public AppSettingsForm(string logFilePath) : this()
+        public AppSettingsForm(LogHelper log) : this()
         {
-            InitializeComponent();
-            _log = new LogHelper(logFilePath);
+            _log = log;
         }
 
         private void AppSettingsForm_Load(object sender, EventArgs e)
         {
             materialSwitch_Startup.Checked = Properties.Settings.Default.App_FollowSystemStartup;
+            materialSlider_RetryTimes.Value = Properties.Settings.Default.App_MaxRetryTimesWithDelShortcut;
+            materialSwitch_Startup.CheckedChanged += materialSwitch_Startup_CheckedChanged;
         }
 
         private void Log(string category, LogLevel level, string message) => _log.Record(category, level, message);
@@ -39,17 +41,20 @@ namespace QLinkCleanerV2
         private void materialSwitch_Startup_CheckedChanged(object sender, EventArgs e)
         {
             Properties.Settings.Default.App_FollowSystemStartup = materialSwitch_Startup.Checked;
+            _isChanged = true; // 标记设置已更改
             if (materialSwitch_Startup.Checked)
             {
                 // 添加到系统启动项
                 AddToStartup();
-                Log("App", LogLevel.Info, "应用程序已添加到系统启动项。");
+                if (_isChanged)
+                    Log("App", LogLevel.Info, "应用程序已添加到系统启动项。");
             }
             else
             {
                 // 从系统启动项中移除
                 RemoveFromStartup();
-                Log("App", LogLevel.Info, "应用程序已从系统启动项中移除。");
+                if (_isChanged)
+                    Log("App", LogLevel.Info, "应用程序已从系统启动项中移除。");
             }
         }
         private static void AddToStartup()
@@ -90,6 +95,16 @@ namespace QLinkCleanerV2
         {
             AboutForm aboutForm = new AboutForm();
             aboutForm.ShowDialog();
+        }
+
+        private void materialSlider_RetryTimes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void materialSlider_RetryTimes_onValueChanged(object sender, int newValue)
+        {
+            Properties.Settings.Default.App_MaxRetryTimesWithDelShortcut = newValue;
         }
     }
 }

@@ -7,8 +7,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
     <Copyright>© 2025 $(Authors) and contributors</Copyright>
-    <FileVersion>2.0.2507.16</FileVersion>
-    <AssemblyVersion>2.0.2507.16</AssemblyVersion>
+    <FileVersion>2.0.2507.20</FileVersion>
+    <AssemblyVersion>2.0.2507.20</AssemblyVersion>
     <Authors>Carlos</Authors>
     <ApplicationIcon>broom.ico</ApplicationIcon>
   </PropertyGroup>

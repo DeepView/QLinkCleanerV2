@@ -15,6 +15,7 @@
             // // 若要为保存和更改设置添加事件处理程序，请取消注释下列行: 
             //
             this.SettingChanging += this.SettingChangingEventHandler;
+            // this.PropertyChanged += this.SettingsChangedEventHandler;
             //
             // this.SettingsSaving += this.SettingsSavingEventHandler;
             //
@@ -25,6 +26,12 @@
             Default.Save();
             //MessageBox.Show("设置已更改，正在保存...", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             // 在此处添加用于处理 SettingChangingEvent 事件的代码。
+        }
+        private void SettingsChangedEventHandler(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            // 在此处添加用于处理 PropertyChanged 事件的代码。
+            //MessageBox.Show("设置已更改，正在保存...", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //Default.Save();
         }
 
         private void SettingsSavingEventHandler(object sender, System.ComponentModel.CancelEventArgs e)

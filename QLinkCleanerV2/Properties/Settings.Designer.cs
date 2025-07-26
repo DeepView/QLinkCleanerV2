@@ -72,13 +72,25 @@ namespace QLinkCleanerV2.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool App_FollowSystemStartup {
             get {
                 return ((bool)(this["App_FollowSystemStartup"]));
             }
             set {
                 this["App_FollowSystemStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public int App_MaxRetryTimesWithDelShortcut {
+            get {
+                return ((int)(this["App_MaxRetryTimesWithDelShortcut"]));
+            }
+            set {
+                this["App_MaxRetryTimesWithDelShortcut"] = value;
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MaterialSkin.Controls;
+using QLinkCleanerV2.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MaterialSkin.Controls;
-using QLinkCleanerV2.Core;
 
 namespace QLinkCleanerV2
 {
@@ -22,35 +22,45 @@ namespace QLinkCleanerV2
 
         public void Show(string file, WatcherStrategy strategy, DesktopType desktopType)
         {
-            if (InvokeRequired)
+            try
             {
-                Invoke(new Action(() => Show(file, strategy, desktopType)));
+                if (InvokeRequired)
+                {
+                    Invoke(new Action(() => Show(file, strategy, desktopType)));
+                }
+                else
+                {
+                    // 在UI线程上调用 Show 方法
+                    Show();
+                    ShowInTaskbar = false;
+                    string strategyStr = strategy switch
+                    {
+                        WatcherStrategy.All => $"全面拦截模式 ({strategy})",
+                        WatcherStrategy.Whitelist => $"黑名单模式 ({strategy})",
+                        WatcherStrategy.Blacklist => $"白名单模式 ({strategy})",
+                        _ => $"全面拦截模式 ({strategy})",
+                    };
+                    string desktopTypeStr = desktopType switch
+                    {
+                        DesktopType.User => $"当前用户桌面 ({desktopType})",
+                        DesktopType.Public => $"公共桌面 ({desktopType})",
+                        _ => "其他桌面 (N/A)",
+                    };
+                    string tips = $"已拦截快捷方式：{file}\n" +
+                            $"拦截策略：{strategyStr}\n" +
+                            $"桌面类型：{desktopTypeStr}";
+                    materialMultiLineTextBox_Tips.Text = tips;
+                    materialMultiLineTextBox_Tips.ReadOnly = true;
+                    timer_Countdown.Start();
+                }
             }
-            else
+            catch (Exception)
             {
-                // 在UI线程上调用 Show 方法
-                Show();
-                ShowInTaskbar = false;
-                string strategyStr = strategy switch
-                {
-                    WatcherStrategy.All => $"全面拦截模式 ({strategy})",
-                    WatcherStrategy.Whitelist => $"黑名单模式 ({strategy})",
-                    WatcherStrategy.Blacklist => $"白名单模式 ({strategy})",
-                    _ => $"全面拦截模式 ({strategy})",
-                };
-                string desktopTypeStr = desktopType switch
-                {
-                    DesktopType.User => $"当前用户桌面 ({desktopType})",
-                    DesktopType.Public => $"公共桌面 ({desktopType})",
-                    _ => "其他桌面 (N/A)",
-                };
-                string tips = $"已拦截快捷方式：{file}\n" +
-                        $"拦截策略：{strategyStr}\n" +
-                        $"桌面类型：{desktopTypeStr}";
-                materialMultiLineTextBox_Tips.Text = tips;
-                materialMultiLineTextBox_Tips.ReadOnly = true;
-                timer_Countdown.Start();
+                var audioStream = Properties.Resources.MessageInterceptionTips;
+                System.Media.SoundPlayer player = new(audioStream);
+                player.Play();
             }
+
         }
 
         private void timer_Countdown_Tick(object sender, EventArgs e)
@@ -69,6 +79,9 @@ namespace QLinkCleanerV2
 
         private void InterceptionResultForm_Load(object sender, EventArgs e)
         {
+            var audioStream = Properties.Resources.MessageInterceptionTips;
+            System.Media.SoundPlayer player = new (audioStream);            
+            player.Play();
 
             Screen screen = Screen.FromControl(this);
             Rectangle rectangle = screen.WorkingArea;

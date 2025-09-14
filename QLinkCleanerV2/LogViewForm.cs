@@ -39,8 +39,12 @@ namespace QLinkCleanerV2
             materialListBox_LogList.SelectedIndex = materialListBox_LogList.Items.Count > 0 ? materialListBox_LogList.Items.Count - 1 : -1;
             materialListBox_LogList_SelectedIndexChanged(sender, materialListBox_LogList.SelectedItem as MaterialSkin.MaterialListBoxItem);
             WindowState = FormWindowState.Maximized;
+            LogViewForm_SizeChanged(sender, e);
         }
 
+        /// <summary>
+        /// 初始化日志列表的上下文菜单。
+        /// </summary>
         public void InitializeContextMenu()
         {
             _logListContextmenuStrip = new MaterialContextMenuStrip();
@@ -88,6 +92,13 @@ namespace QLinkCleanerV2
             _logListContextmenuStrip.Items.Add(deleteMenuItem);
             _logListContextmenuStrip.Items.Add(refreshMenuItem);
             _logListContextmenuStrip.Items.Add(toLogDirectoryMenuItem);
+            foreach (ToolStripItem item in _logListContextmenuStrip.Items)
+            {
+                item.Font = new Font(
+                    "Microsoft YaHei UI", 
+                    20F
+                );
+            }
         }
 
         private void LoadLogList()
@@ -139,6 +150,22 @@ namespace QLinkCleanerV2
                     MessageBox.Show("Selected log file does not exist.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+        }
+
+        private void materialListView_LogContent_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            var selectedItem = materialListView_LogContent.SelectedItems.Cast<ListViewItem>().FirstOrDefault();
+            string datetime = selectedItem.Text;
+            string type = selectedItem.SubItems[1].Text;
+            string level = selectedItem.SubItems[2].Text;
+            string detail = selectedItem.SubItems[3].Text;
+            LogDetailForm detailForm = new(datetime, type, level, detail);
+            detailForm.ShowDialog();
+        }
+
+        private void LogViewForm_StyleChanged(object sender, EventArgs e)
+        {
+            //LogViewForm_SizeChanged(sender, e);
         }
     }
 }

@@ -81,10 +81,10 @@ namespace QLinkCleanerV2
 
         private void materialButton_Add_Click(object sender, EventArgs e)
         {
-            SingleDataForm add = new SingleDataForm();
+            SingleDataForm add = new();
             string name = string.Empty;
-            bool isWatchingUserDesktop = false;
-            bool isWatchingPublicDesktop = false;
+            bool isWatchingUserDesktop = true;
+            bool isWatchingPublicDesktop = true;
             DialogResult result = add.ShowDialog(true, ref name, ref isWatchingUserDesktop, ref isWatchingPublicDesktop);
             if (result == DialogResult.OK)
             {
@@ -98,13 +98,13 @@ namespace QLinkCleanerV2
                 {
                     Manifests[0].Add(data);
                     LoadManifestToListView();
-                    Log("Manifest", LogLevel.Info, $"已添加黑名单项目：{data.Name}");
+                    Log("Manifest", LogLevel.Info, $"已添加黑名单项目：{data.Name} <IsWatchingUserDesktop = {data.IsWatchingUserDesktop}, IsWatchingPublicDesktop = {data.IsWatchingPublicDesktop}>");
                 }
                 else
                 {
                     Manifests[1].Add(data);
                     LoadManifestToListView();
-                    Log("Manifest", LogLevel.Info, $"已添加白名单项目：{data.Name}");
+                    Log("Manifest", LogLevel.Info, $"已添加白名单项目：{data.Name} <IsWatchingUserDesktop = {data.IsWatchingUserDesktop}, IsWatchingPublicDesktop = {data.IsWatchingPublicDesktop}>");
                 }
                 IsChanged = true;
             }
@@ -161,9 +161,10 @@ namespace QLinkCleanerV2
             {
                 int index = materialListView_ManifestView.SelectedIndices[0];
                 int manifestIndex = materialComboBox_ManifestType.Text == "黑名单" ? 0 : 1;
+                string removed = Manifests[manifestIndex][index].Name;
                 Manifests[manifestIndex].RemoveAt(index);
                 IsChanged = true;
-                Log("Manifest", LogLevel.Info, $"已从{materialComboBox_ManifestType.Text}中删除移除项目：{Manifests[manifestIndex][index].Name}");
+                Log("Manifest", LogLevel.Info, $"已从{materialComboBox_ManifestType.Text}中删除移除项目：{removed}");
             }
             LoadManifestToListView();
         }
@@ -175,7 +176,8 @@ namespace QLinkCleanerV2
                 int index = materialListView_ManifestView.SelectedIndices[0];
                 int manifestIndex = materialComboBox_ManifestType.Text == "黑名单" ? 0 : 1;
                 SingleDataForm modify = new();
-                string name = Manifests[manifestIndex][index].Name;
+                ListData data = Manifests[manifestIndex][index];
+                string name = data.Name;
                 bool isWatchingUserDesktop = Manifests[manifestIndex][index].IsWatchingUserDesktop;
                 bool isWatchingPublicDesktop = Manifests[manifestIndex][index].IsWatchingPublicDesktop;
                 DialogResult result = modify.ShowDialog(false, ref name, ref isWatchingUserDesktop, ref isWatchingPublicDesktop);
@@ -188,7 +190,7 @@ namespace QLinkCleanerV2
                         LastTimeOfInterception = Manifests[manifestIndex][index].LastTimeOfInterception
                     };
                     IsChanged = true;
-                    Log("Manifest", LogLevel.Info, $"已修改{materialComboBox_ManifestType.Text}项目：{name}");
+                    Log("Manifest", LogLevel.Info, $"已修改{materialComboBox_ManifestType.Text}项目：Index = {index}, NewName = {name}, IsWatchingUserDesktop = {data.IsWatchingUserDesktop}, IsWatchingPublicDesktop = {data.IsWatchingPublicDesktop}");
                 }
                 LoadManifestToListView();
             }

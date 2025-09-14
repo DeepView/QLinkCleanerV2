@@ -104,6 +104,7 @@
             materialListView_LogContent.TabIndex = 0;
             materialListView_LogContent.UseCompatibleStateImageBehavior = false;
             materialListView_LogContent.View = View.Details;
+            materialListView_LogContent.MouseDoubleClick += materialListView_LogContent_MouseDoubleClick;
             // 
             // Col_DateTime
             // 
@@ -137,6 +138,7 @@
             Text = "日志浏览器";
             Load += LogViewForm_Load;
             SizeChanged += LogViewForm_SizeChanged;
+            StyleChanged += LogViewForm_StyleChanged;
             splitContainer_Main.Panel1.ResumeLayout(false);
             splitContainer_Main.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)splitContainer_Main).EndInit();

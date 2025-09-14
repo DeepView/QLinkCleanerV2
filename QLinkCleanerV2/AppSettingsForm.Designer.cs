@@ -31,6 +31,7 @@
             materialSwitch_Startup = new MaterialSkin.Controls.MaterialSwitch();
             materialButton_AboutThis = new MaterialSkin.Controls.MaterialButton();
             materialSlider_RetryTimes = new MaterialSkin.Controls.MaterialSlider();
+            materialButton_OpenTestDomain = new MaterialSkin.Controls.MaterialButton();
             SuspendLayout();
             // 
             // materialSwitch_Startup
@@ -55,7 +56,7 @@
             materialButton_AboutThis.Depth = 0;
             materialButton_AboutThis.HighEmphasis = true;
             materialButton_AboutThis.Icon = null;
-            materialButton_AboutThis.Location = new Point(16, 290);
+            materialButton_AboutThis.Location = new Point(16, 359);
             materialButton_AboutThis.Margin = new Padding(4, 6, 4, 6);
             materialButton_AboutThis.MouseState = MaterialSkin.MouseState.HOVER;
             materialButton_AboutThis.Name = "materialButton_AboutThis";
@@ -76,7 +77,7 @@
             materialSlider_RetryTimes.MouseState = MaterialSkin.MouseState.HOVER;
             materialSlider_RetryTimes.Name = "materialSlider_RetryTimes";
             materialSlider_RetryTimes.RangeMax = 1000;
-            materialSlider_RetryTimes.Size = new Size(434, 40);
+            materialSlider_RetryTimes.Size = new Size(495, 40);
             materialSlider_RetryTimes.TabIndex = 2;
             materialSlider_RetryTimes.Text = "删除快捷方式的最大重试次数";
             materialSlider_RetryTimes.Value = 500;
@@ -85,17 +86,39 @@
             materialSlider_RetryTimes.onValueChanged += materialSlider_RetryTimes_onValueChanged;
             materialSlider_RetryTimes.Click += materialSlider_RetryTimes_Click;
             // 
+            // materialButton_OpenTestDomain
+            // 
+            materialButton_OpenTestDomain.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            materialButton_OpenTestDomain.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            materialButton_OpenTestDomain.Depth = 0;
+            materialButton_OpenTestDomain.HighEmphasis = true;
+            materialButton_OpenTestDomain.Icon = null;
+            materialButton_OpenTestDomain.Location = new Point(191, 359);
+            materialButton_OpenTestDomain.Margin = new Padding(4, 6, 4, 6);
+            materialButton_OpenTestDomain.MouseState = MaterialSkin.MouseState.HOVER;
+            materialButton_OpenTestDomain.Name = "materialButton_OpenTestDomain";
+            materialButton_OpenTestDomain.NoAccentTextColor = Color.Empty;
+            materialButton_OpenTestDomain.Size = new Size(152, 36);
+            materialButton_OpenTestDomain.TabIndex = 3;
+            materialButton_OpenTestDomain.Text = "进入 Test Domain";
+            materialButton_OpenTestDomain.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Text;
+            materialButton_OpenTestDomain.UseAccentColor = false;
+            materialButton_OpenTestDomain.UseVisualStyleBackColor = true;
+            materialButton_OpenTestDomain.Click += materialButton_OpenTestDomain_Click;
+            // 
             // AppSettingsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(487, 346);
+            ClientSize = new Size(575, 418);
+            Controls.Add(materialButton_OpenTestDomain);
             Controls.Add(materialSlider_RetryTimes);
             Controls.Add(materialButton_AboutThis);
             Controls.Add(materialSwitch_Startup);
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "AppSettingsForm";
+            Sizable = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "应用程序设置";
             Load += AppSettingsForm_Load;
@@ -108,5 +131,6 @@
         private MaterialSkin.Controls.MaterialSwitch materialSwitch_Startup;
         private MaterialSkin.Controls.MaterialButton materialButton_AboutThis;
         private MaterialSkin.Controls.MaterialSlider materialSlider_RetryTimes;
+        private MaterialSkin.Controls.MaterialButton materialButton_OpenTestDomain;
     }
 }

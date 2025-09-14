@@ -1,5 +1,7 @@
-using System.Diagnostics;
+using MaterialSkin.Controls;
 using QLinkCleanerV2.Core;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace QLinkCleanerV2
 {
@@ -35,6 +37,23 @@ namespace QLinkCleanerV2
 
             // TODO: 如果在后续版本中完成了在拦截结果提示框中加入白名单并切换到白名单功能，请删除或者注释掉以下行代码。
             DeleteShortcutBackup(); // 如果你需要删除备份的快捷方式，请调用此方法，否则请注释掉这行代码。
+
+            SystemEvents.SessionEnding += (s, e) =>
+            {
+                // Handle system shutdown or user logoff events
+                if (e.Reason == SessionEndReasons.SystemShutdown)
+                {
+                    Log("App", LogLevel.Info, "正在退出Windows，应用程序已退出。");
+                }
+                else if (e.Reason == SessionEndReasons.Logoff)
+                {
+                    Log("App", LogLevel.Info, "当前用户正在注销登录，应用程序已退出。");
+                }
+                else
+                {
+                    Log("App", LogLevel.Info, "应用程序已退出。");
+                }
+            };
 
             // If this is the first instance, continue with application startup
             ApplicationConfiguration.Initialize();
@@ -95,7 +114,7 @@ namespace QLinkCleanerV2
         {
             File.Create(filename).Close(); // Create an empty file for error trace logs
             using StreamWriter writer = new(filename, false);
-            writer.WriteLine($"{exception.Message}\n\n{exception.StackTrace}");
+            writer.WriteLine($"{exception.Message}\r\n\r\n{exception.StackTrace}");
         }
         public static string GenerateErrorTraceLogFileName()
         {
@@ -121,8 +140,8 @@ namespace QLinkCleanerV2
                     ex
                 );
                 Log("App", LogLevel.Debug, $"捕获到未被处理的异常，详细信息参阅文件：{unhandled_ex_log_file}");
-                MessageBox.Show(
-                    $"发生了一个未处理的异常，详细信息已记录到文件：{unhandled_ex_log_file}",
+                MaterialMessageBox.Show(
+                    $"发生了一个未处理的异常\n异常信息：{ex.Message}\n堆栈跟踪信息：\n{ex.StackTrace}\n\n详细信息已记录到文件：{unhandled_ex_log_file}",
                     "未处理异常",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -132,7 +151,7 @@ namespace QLinkCleanerV2
             else
             {
                 Log("App", LogLevel.Error, "发生了一个未处理的异常，但无法获取异常信息。");
-                MessageBox.Show(
+                MaterialMessageBox.Show(
                     "发生了一个未处理的异常，但无法获取异常信息。",
                     "未处理异常",
                     MessageBoxButtons.OK,
@@ -150,9 +169,9 @@ namespace QLinkCleanerV2
                 e.Exception
             );
 
-            Log("App", LogLevel.Debug, $"捕获到未被处理的线程异常，详细信息参阅文件：{unhandled_ex_log_file}");
-            MessageBox.Show(
-                $"发生了一个未处理的线程异常，详细信息已记录到文件：{unhandled_ex_log_file}",
+            Log("App", LogLevel.Error, $"捕获到未被处理的线程异常，详细信息参阅文件：{unhandled_ex_log_file}");
+            MaterialMessageBox.Show(
+                $"发生了一个未处理的异常\n异常信息：{e.Exception.Message}\n堆栈跟踪信息：\n{e.Exception.StackTrace}\n\n详细信息已记录到文件：{unhandled_ex_log_file}",
                 "未处理线程异常",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error

@@ -47,6 +47,14 @@ namespace QLinkCleanerV2
             Log("App", LogLevel.Info, $"加载设置：Watcher_Switch = {materialSwitch_SwitchWatching.Checked}");
             Watcher.Strategy = (WatcherStrategy)Properties.Settings.Default.Watcher_Strategy;
             Log("App", LogLevel.Info, $"加载设置：Watcher_Strategy = {Watcher.Strategy}");
+            string currentStrategy = Watcher.Strategy switch
+            {
+                WatcherStrategy.All => "监视所有的快捷方式（ALL: 0xFFFF）",
+                WatcherStrategy.Blacklist => "黑名单模式（BLACKLIST: 0x0000）",
+                WatcherStrategy.Whitelist => "白名单模式（WHITELIST: 0x0001）",
+                _ => "未知策略（UNKNOWN）"
+            };
+            materialLabel_CurrentStrategy.Text = $"当前已应用的拦截策略：{currentStrategy}";
         }
 
         public void StartupDo()
@@ -82,14 +90,26 @@ namespace QLinkCleanerV2
         {
             _contextMenuStrip = new MaterialContextMenuStrip();
             _contextMenuStrip.Items.Add("显示主窗口", null, (s, e) => Show());
+            _contextMenuStrip.Items.Add("重新开始监视", null, materialButton_ResetWatchers_Click);
+            _contextMenuStrip.Items.Add("立即清理", null, materialButton_CleanNow_Click);
+            _contextMenuStrip.Items.Add("打开日志浏览器", null, pictureBox_Log_Click);
+            _contextMenuStrip.Items.Add("进入 Test Domain", null, (s, e) => new TestDomainForm(LogFilePath).Show());
             _contextMenuStrip.Items.Add("退出", null, (s, e) => Application.Exit());
+            foreach (ToolStripItem item in _contextMenuStrip.Items)
+            {
+                item.Font = new Font(
+                    "Microsoft Sans Serif",
+                    20F, FontStyle.Regular,
+                    GraphicsUnit.Point
+                );
+            }
             notifyIcon_Background.ContextMenuStrip = _contextMenuStrip;
         }
 
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Size = new Size(590, 406);
+            Size = new Size(684, 497);
             LoadSettings();
             materialSwitch_SwitchWatching_CheckedChanged(sender, e);
 
@@ -168,6 +188,7 @@ namespace QLinkCleanerV2
             }
             else
             {
+                //AdminOperations.RunAdminOperation();
                 pictureBox_Sataus.Image = Properties.Resources.StatusError;
                 label_StatusText.Text = "您的桌面已停止保护";
                 Properties.Settings.Default.Watcher_Switch = false;
@@ -219,6 +240,14 @@ namespace QLinkCleanerV2
                 Properties.Settings.Default.Watcher_Strategy = (int)strategy;
                 materialButton_ResetWatchers_Click(sender, e); // 重新开始监视
             }
+            string currentStrategy = Watcher.Strategy switch
+            {
+                WatcherStrategy.All => "监视所有的快捷方式（ALL: 0xFFFF）",
+                WatcherStrategy.Blacklist => "黑名单模式（BLACKLIST: 0x0000）",
+                WatcherStrategy.Whitelist => "白名单模式（WHITELIST: 0x0001）",
+                _ => "未知策略（UNKNOWN）"
+            };
+            materialLabel_CurrentStrategy.Text = $"当前已应用的拦截策略：{currentStrategy}";
         }
 
         private void pictureBox_Manifest_Click(object sender, EventArgs e)
@@ -247,18 +276,20 @@ namespace QLinkCleanerV2
 
         private void pictureBox_Statistics_Click(object sender, EventArgs e)
         {
-            int count = Properties.Settings.Default.Intercept_Count;
-            DateTime lastInterceptTime = Properties.Settings.Default.Intercept_LastTime;
-            if (count > 0)
-            {
-                string message = $"拦截次数：{count}\n" +
-                                 $"上次拦截时间：{lastInterceptTime:yyyy-MM-dd HH:mm:ss}";
-                MaterialMessageBox.Show(message, "统计信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                MaterialMessageBox.Show("当前没有拦截记录。", "统计信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            //int count = Properties.Settings.Default.Intercept_Count;
+            //DateTime lastInterceptTime = Properties.Settings.Default.Intercept_LastTime;
+            //if (count > 0)
+            //{
+            //    string message = $"拦截次数：{count}\n" +
+            //                     $"上次拦截时间：{lastInterceptTime:yyyy-MM-dd HH:mm:ss}";
+            //    MaterialMessageBox.Show(message, "统计信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            //else
+            //{
+            //    MaterialMessageBox.Show("当前没有拦截记录。", "统计信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            //}
+            InterceptionRecordsForm interceptionRecordsForm = new();
+            interceptionRecordsForm.Show();
         }
 
         private void pictureBox_Configure_Click(object sender, EventArgs e)
@@ -266,5 +297,12 @@ namespace QLinkCleanerV2
             AppSettingsForm appSettingsForm = new(_log);
             appSettingsForm.ShowDialog();
         }
+
+        private void materialButton_CleanNow_Click(object sender, EventArgs e)
+        {
+            Watcher.CleanUpImmediately();
+            Log("App", LogLevel.Info, "用户执行立即清理，如果有符合清理策略的快捷方式被清理，其清理结果的日志记录将会写入到这条日志记录之后。");
+        }
+
     }
 }

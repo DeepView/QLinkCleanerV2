@@ -6,9 +6,9 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Copyright>© 2025 $(Authors) and contributors</Copyright>
-    <FileVersion>2.0.2507.20</FileVersion>
-    <AssemblyVersion>2.0.2507.20</AssemblyVersion>
+    <Copyright>© 2025 Carlos and assembly builder.</Copyright>
+    <FileVersion>2.0.2509.45</FileVersion>
+    <AssemblyVersion>2.0.2509.45</AssemblyVersion>
     <Authors>Carlos</Authors>
     <ApplicationIcon>broom.ico</ApplicationIcon>
   </PropertyGroup>

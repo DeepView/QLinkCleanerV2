@@ -17,6 +17,8 @@ namespace QLinkCleanerV2.Core
         private readonly LogHelper _log;
         private readonly Lock __sync_lock = new();
         private int _tiggeringCountOfEvents = 0;
+        private readonly InterceptionRecordHelper _recordHelper;
+        private readonly string _interceptionRecordsFilePath = @"interception_records.log-carlos";
         private readonly InterceptionResultForm _interceptionResultForm;
         /// <summary>
         /// 创建一个新的监视器实例。
@@ -35,9 +37,10 @@ namespace QLinkCleanerV2.Core
             _publicDesktopWatchList = [];
             _log = new LogHelper(logFilePath);
             Strategy = strategy;
-
+            if (!File.Exists(_interceptionRecordsFilePath))
+                File.Create(_interceptionRecordsFilePath).Close();
+            _recordHelper = InterceptionRecordHelper.Parse(_interceptionRecordsFilePath);
             _interceptionResultForm = new();
-
             Log("Watcher", LogLevel.Info, "监视器已创建，正在初始化。");
         }
         /// <summary>
@@ -117,7 +120,6 @@ namespace QLinkCleanerV2.Core
         }
         public void RemoveShortcut(string file, DesktopType desktopType)
         {
-            bool isDeleted = false;
             int loopCount = 0;
             int maxLoopCount = Properties.Settings.Default.App_MaxRetryTimesWithDelShortcut;
             string dir_usr = @"removed\user";
@@ -148,6 +150,16 @@ namespace QLinkCleanerV2.Core
                     }
                 }
             } while (File.Exists(file));
+            if(!File.Exists(file))
+            {
+                _recordHelper.AddRecord(
+                    DateTime.Now.Ticks, 
+                    Path.GetFileNameWithoutExtension(file), 
+                    desktopType.ToString(), 
+                    Path.GetFullPath(file)
+                );
+                _recordHelper.Save(_interceptionRecordsFilePath);
+            }
         }
         /// <summary>
         /// 用户桌面监视事件处理方法。
@@ -290,6 +302,18 @@ namespace QLinkCleanerV2.Core
                     Log("Statistics", LogLevel.Info, $"应用程序累计拦截并成功清除{count}次，最后一次拦截并清除的时间：{last:yyyy-MM-dd HH:mm:ss.fff}");
                 }
             }
+        }
+        /// <summary>
+        /// 立即清理桌面快捷方式。
+        /// </summary>
+        public void CleanUpImmediately()
+        {
+            UserDesktopWatchEvent(null,
+                new FileSystemEventArgs(WatcherChangeTypes.Created,
+                GetUserDesktopDirectory(), "*"));
+            PublicDesktopWatchEvent(null,
+                new FileSystemEventArgs(WatcherChangeTypes.Created,
+                GetPublicDesktopDirectory(), "*"));
         }
         /// <summary>
         /// 记录日志。

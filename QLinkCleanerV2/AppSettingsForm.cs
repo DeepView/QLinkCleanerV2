@@ -93,7 +93,7 @@ namespace QLinkCleanerV2
 
         private void materialButton_AboutThis_Click(object sender, EventArgs e)
         {
-            AboutForm aboutForm = new AboutForm();
+            AboutForm aboutForm = new();
             aboutForm.ShowDialog();
         }
 
@@ -105,6 +105,12 @@ namespace QLinkCleanerV2
         private void materialSlider_RetryTimes_onValueChanged(object sender, int newValue)
         {
             Properties.Settings.Default.App_MaxRetryTimesWithDelShortcut = newValue;
+        }
+
+        private void materialButton_OpenTestDomain_Click(object sender, EventArgs e)
+        {
+            TestDomainForm testDomainForm = new(_log.LogFilePath);
+            testDomainForm.Show();
         }
     }
 }

@@ -78,17 +78,29 @@ namespace QLinkCleanerV2
             var statisticsItem = new ToolStripMenuItem("查看统计信息");
             statisticsItem.Click += (s, e) =>
             {
-                var (countOfUser, countOfPublic) = _recordHelper.GetRecordsCountByLocation();
-                var totalRecords = _recordHelper.Count;
-                var uniqueShortcuts = _recordHelper.GetAllRecords().Select(r => r.shortcutName).Distinct().Count();
-                var lastRecord = InterceptionRecordHelper.GetRecordAsString(_recordHelper.GetLatestRecord());
-                var message = $"总拦截记录数: {totalRecords}\r\n不同快捷方式数: {uniqueShortcuts}\r\n拦截来源统计（User, Public）:{countOfUser}, {countOfPublic}\r\n\r\n最新的拦截记录：\r\n{lastRecord}";
-                MaterialMessageBox.Show(
-                    message,
-                    "统计信息",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (_recordHelper.Count == 0)
+                {
+                    MaterialMessageBox.Show(
+                        "当前没有任何拦截记录。",
+                        "统计信息",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+                else
+                {
+                    var (countOfUser, countOfPublic) = _recordHelper.GetRecordsCountByLocation();
+                    var totalRecords = _recordHelper.Count;
+                    var uniqueShortcuts = _recordHelper.GetAllRecords().Select(r => r.shortcutName).Distinct().Count();
+                    var lastRecord = InterceptionRecordHelper.GetRecordAsString(_recordHelper.GetLatestRecord());
+                    var message = $"总拦截记录数: {totalRecords}\r\n不同快捷方式数: {uniqueShortcuts}\r\n拦截来源统计（User, Public）:{countOfUser}, {countOfPublic}\r\n\r\n最新的拦截记录：\r\n{lastRecord}";
+                    MaterialMessageBox.Show(
+                        message,
+                        "统计信息",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
             };
             _contextMenu.Items.Add(statisticsItem);
             var clearAllItem = new ToolStripMenuItem("清除所有的拦截记录");
@@ -100,11 +112,12 @@ namespace QLinkCleanerV2
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Warning
                 );
-                if (confirmResult != DialogResult.Yes)
+                if (confirmResult == DialogResult.Yes)
                 {
                     _recordHelper.ClearRecords();
                     _recordHelper.Save(_interceptionRecordsFilePath);
                 }
+                LoadRecordsToListView();
             };
             _contextMenu.Items.Add(clearAllItem);
             foreach (ToolStripItem item in _contextMenu.Items)
@@ -121,6 +134,21 @@ namespace QLinkCleanerV2
         {
             LoadRecordsToListView();
             LoadContextMenu();
+        }
+
+        private void materialListView_Records_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (materialListView_Records.FocusedItem != null && materialListView_Records.FocusedItem.Bounds.Contains(e.Location))
+            {
+                var selectedItemIndex = materialListView_Records.SelectedItems[0].Index;
+                var recordText = _recordHelper.GetRecordAsString(selectedItemIndex);
+                MaterialMessageBox.Show(
+                    recordText,
+                    "拦截记录详情",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
         }
     }
 }

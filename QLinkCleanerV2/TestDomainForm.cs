@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Media.AppBroadcasting;
 
 namespace QLinkCleanerV2
 {
@@ -103,6 +104,54 @@ namespace QLinkCleanerV2
         {
             Log("TestDomain", LogLevel.Info, $"用户已经在 Test Domain 模式中执行了 {_operationCount} 次操作。");
             Log("App", LogLevel.Info, "已退出 Test Domain 模式。");
+        }
+
+        private void linkLabel_OpenAssemblyRootDir_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OptCounterIncrement();
+            string assemblyDir = AppDomain.CurrentDomain.BaseDirectory;
+            Process.Start("explorer.exe", assemblyDir);
+            Log("TestDomain", LogLevel.Info, $"已打开应用程序程序集根目录：{assemblyDir}");
+        }
+
+        private void linkLabel_AppProcessInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            OptCounterIncrement();
+            string processInfo = $"当前应用程序进程信息：\r\n\r\n" +
+                $"进程ID: {Environment.ProcessId}\r\n" +
+                $"进程名称: {Process.GetCurrentProcess().ProcessName}\r\n" + 
+                $"启动时间: {Process.GetCurrentProcess().StartTime}\r\n" +
+                $"运行时长: {DateTime.Now - Process.GetCurrentProcess().StartTime}\r\n" +
+                $"物理内存使用: {Process.GetCurrentProcess().PrivateMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"当前工作集（内存使用）: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB\r\n" +
+                $"峰值工作集（内存使用）: {Process.GetCurrentProcess().PeakWorkingSet64 / 1024 / 1024} MB\r\n" +
+                $"虚拟内存大小: {Process.GetCurrentProcess().VirtualMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"峰值虚拟内存大小: {Process.GetCurrentProcess().PeakVirtualMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"非分页系统内存大小: {Process.GetCurrentProcess().NonpagedSystemMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"分页系统内存大小: {Process.GetCurrentProcess().PagedSystemMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"已分页内存大小: {Process.GetCurrentProcess().PagedMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"峰值已分页内存大小: {Process.GetCurrentProcess().PeakPagedMemorySize64 / 1024 / 1024} MB\r\n" +
+                $"响应状态: {Process.GetCurrentProcess().Responding}\r\n" +
+                $"会话ID: {Process.GetCurrentProcess().SessionId}\r\n" +
+                $"优先级类: {Process.GetCurrentProcess().PriorityClass}\r\n" +
+                $"实时优先级: {Process.GetCurrentProcess().BasePriority}\r\n" +
+                $"内核处理器时间: {Process.GetCurrentProcess().PrivilegedProcessorTime}\r\n" +
+                $"用户处理器时间: {Process.GetCurrentProcess().UserProcessorTime}\r\n" +
+                $"总处理器时间: {Process.GetCurrentProcess().TotalProcessorTime}\r\n" +
+                $"当前应用程序域: {AppDomain.CurrentDomain.FriendlyName}\r\n" +
+                $"操作系统（OS平台）: {Environment.OSVersion.Platform}\r\n" +
+                $"操作系统版本: {Environment.OSVersion}\r\n" +
+                $"64位操作系统: {Environment.Is64BitOperatingSystem}\r\n" +
+                $"当前进程是否为64位: {Environment.Is64BitProcess}\r\n" +
+                $"处理器数量: {Environment.ProcessorCount}\r\n" +
+                $"用户交互模式: {Environment.UserInteractive}\r\n" +
+                $"系统目录: {Environment.SystemDirectory}\r\n" +
+                $"应用程序目录: {AppDomain.CurrentDomain.BaseDirectory}\r\n" +
+                $"当前用户域名: {Environment.UserDomainName}\r\n" +
+                $"当前用户名: {Environment.UserName}\r\n" +
+                $"CLR 版本: {Environment.Version}\r\n";
+            MessageBox.Show(processInfo, "应用程序进程信息", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Log("TestDomain", LogLevel.Info, "已显示当前应用程序进程信息。");
         }
     }
 }

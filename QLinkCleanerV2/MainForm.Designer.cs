@@ -164,7 +164,7 @@
             materialSwitch_SwitchWatching.MouseState = MaterialSkin.MouseState.HOVER;
             materialSwitch_SwitchWatching.Name = "materialSwitch_SwitchWatching";
             materialSwitch_SwitchWatching.Ripple = true;
-            materialSwitch_SwitchWatching.Size = new Size(238, 37);
+            materialSwitch_SwitchWatching.Size = new Size(250, 37);
             materialSwitch_SwitchWatching.TabIndex = 3;
             materialSwitch_SwitchWatching.Text = "单击此处可以切换监视状态";
             materialSwitch_SwitchWatching.UseVisualStyleBackColor = false;
@@ -179,7 +179,7 @@
             materialDivider1.Location = new Point(3, 24);
             materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             materialDivider1.Name = "materialDivider1";
-            materialDivider1.Size = new Size(678, 371);
+            materialDivider1.Size = new Size(694, 371);
             materialDivider1.TabIndex = 4;
             materialDivider1.Text = "materialDivider1";
             // 
@@ -201,7 +201,7 @@
             materialButton_ResetWatchers.Depth = 0;
             materialButton_ResetWatchers.HighEmphasis = true;
             materialButton_ResetWatchers.Icon = null;
-            materialButton_ResetWatchers.Location = new Point(391, 250);
+            materialButton_ResetWatchers.Location = new Point(412, 249);
             materialButton_ResetWatchers.Margin = new Padding(4, 6, 4, 6);
             materialButton_ResetWatchers.MouseState = MaterialSkin.MouseState.HOVER;
             materialButton_ResetWatchers.Name = "materialButton_ResetWatchers";
@@ -221,7 +221,7 @@
             materialButton_CleanNow.Depth = 0;
             materialButton_CleanNow.HighEmphasis = true;
             materialButton_CleanNow.Icon = null;
-            materialButton_CleanNow.Location = new Point(407, 209);
+            materialButton_CleanNow.Location = new Point(428, 209);
             materialButton_CleanNow.Margin = new Padding(4, 6, 4, 6);
             materialButton_CleanNow.MouseState = MaterialSkin.MouseState.HOVER;
             materialButton_CleanNow.Name = "materialButton_CleanNow";
@@ -242,7 +242,7 @@
             materialLabel1.Location = new Point(129, 219);
             materialLabel1.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel1.Name = "materialLabel1";
-            materialLabel1.Size = new Size(271, 19);
+            materialLabel1.Size = new Size(289, 19);
             materialLabel1.TabIndex = 7;
             materialLabel1.Text = "若您需要现在清理桌面快捷方式，请单击";
             // 
@@ -254,7 +254,7 @@
             materialLabel2.Location = new Point(129, 259);
             materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel2.Name = "materialLabel2";
-            materialLabel2.Size = new Size(256, 19);
+            materialLabel2.Size = new Size(273, 19);
             materialLabel2.TabIndex = 7;
             materialLabel2.Text = "若需要重置应用程序的监视器，请单击";
             // 
@@ -266,7 +266,7 @@
             materialLabel_CurrentStrategy.Location = new Point(129, 179);
             materialLabel_CurrentStrategy.MouseState = MaterialSkin.MouseState.HOVER;
             materialLabel_CurrentStrategy.Name = "materialLabel_CurrentStrategy";
-            materialLabel_CurrentStrategy.Size = new Size(166, 19);
+            materialLabel_CurrentStrategy.Size = new Size(177, 19);
             materialLabel_CurrentStrategy.TabIndex = 8;
             materialLabel_CurrentStrategy.Text = "当前已应用的拦截策略：";
             // 
@@ -275,7 +275,7 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(684, 497);
+            ClientSize = new Size(700, 536);
             Controls.Add(materialLabel_CurrentStrategy);
             Controls.Add(materialLabel2);
             Controls.Add(materialLabel1);

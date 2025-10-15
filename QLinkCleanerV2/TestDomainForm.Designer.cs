@@ -36,8 +36,10 @@
             splitContainer_Page = new SplitContainer();
             groupBox_Test = new GroupBox();
             groupBox_Debug = new GroupBox();
+            linkLabel_OpenAssemblyRootDir = new LinkLabel();
             linkLabel_OpenTraceDir = new LinkLabel();
             panel1 = new Panel();
+            linkLabel_AppProcessInfo = new LinkLabel();
             ((System.ComponentModel.ISupportInitialize)splitContainer_Page).BeginInit();
             splitContainer_Page.Panel1.SuspendLayout();
             splitContainer_Page.Panel2.SuspendLayout();
@@ -117,6 +119,8 @@
             // 
             // groupBox_Debug
             // 
+            groupBox_Debug.Controls.Add(linkLabel_AppProcessInfo);
+            groupBox_Debug.Controls.Add(linkLabel_OpenAssemblyRootDir);
             groupBox_Debug.Controls.Add(linkLabel_OpenTraceDir);
             groupBox_Debug.Controls.Add(linkLabel_ViewStackTraceInfo);
             groupBox_Debug.Dock = DockStyle.Fill;
@@ -126,6 +130,17 @@
             groupBox_Debug.TabIndex = 0;
             groupBox_Debug.TabStop = false;
             groupBox_Debug.Text = "Debug";
+            // 
+            // linkLabel_OpenAssemblyRootDir
+            // 
+            linkLabel_OpenAssemblyRootDir.AutoSize = true;
+            linkLabel_OpenAssemblyRootDir.Location = new Point(3, 69);
+            linkLabel_OpenAssemblyRootDir.Name = "linkLabel_OpenAssemblyRootDir";
+            linkLabel_OpenAssemblyRootDir.Size = new Size(176, 17);
+            linkLabel_OpenAssemblyRootDir.TabIndex = 6;
+            linkLabel_OpenAssemblyRootDir.TabStop = true;
+            linkLabel_OpenAssemblyRootDir.Text = "打开应用程序程序集所在的目录";
+            linkLabel_OpenAssemblyRootDir.LinkClicked += linkLabel_OpenAssemblyRootDir_LinkClicked;
             // 
             // linkLabel_OpenTraceDir
             // 
@@ -147,6 +162,17 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(854, 71);
             panel1.TabIndex = 6;
+            // 
+            // linkLabel_AppProcessInfo
+            // 
+            linkLabel_AppProcessInfo.AutoSize = true;
+            linkLabel_AppProcessInfo.Location = new Point(3, 86);
+            linkLabel_AppProcessInfo.Name = "linkLabel_AppProcessInfo";
+            linkLabel_AppProcessInfo.Size = new Size(140, 17);
+            linkLabel_AppProcessInfo.TabIndex = 7;
+            linkLabel_AppProcessInfo.TabStop = true;
+            linkLabel_AppProcessInfo.Text = "查看应用程序的进程信息";
+            linkLabel_AppProcessInfo.LinkClicked += linkLabel_AppProcessInfo_LinkClicked;
             // 
             // TestDomainForm
             // 
@@ -188,5 +214,7 @@
         private GroupBox groupBox_Debug;
         private LinkLabel linkLabel_OpenTraceDir;
         private Panel panel1;
+        private LinkLabel linkLabel_OpenAssemblyRootDir;
+        private LinkLabel linkLabel_AppProcessInfo;
     }
 }

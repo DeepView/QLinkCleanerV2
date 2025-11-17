@@ -41,6 +41,7 @@ namespace QLinkCleanerV2
                 ];
                 materialListView_Records.Items.Add(new ListViewItem(data));
             }
+            UpdateTitle();
         }
         private void LoadContextMenu()
         {
@@ -136,7 +137,7 @@ namespace QLinkCleanerV2
             LoadContextMenu();
         }
 
-        private void materialListView_Records_MouseClick(object sender, MouseEventArgs e)
+        private void materialListView_Records_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             if (materialListView_Records.FocusedItem != null && materialListView_Records.FocusedItem.Bounds.Contains(e.Location))
             {
@@ -150,5 +151,7 @@ namespace QLinkCleanerV2
                 );
             }
         }
+
+        private void UpdateTitle() => Text = $"拦截记录查看器 - 共 {_recordHelper.Count} 条记录";
     }
 }

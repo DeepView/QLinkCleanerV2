@@ -93,6 +93,7 @@ namespace QLinkCleanerV2
             _contextMenuStrip.Items.Add("重新开始监视", null, materialButton_ResetWatchers_Click);
             _contextMenuStrip.Items.Add("立即清理", null, materialButton_CleanNow_Click);
             _contextMenuStrip.Items.Add("打开日志浏览器", null, pictureBox_Log_Click);
+            _contextMenuStrip.Items.Add("查看统计信息", null, pictureBox_Statistics_Click);
             _contextMenuStrip.Items.Add("进入 Test Domain", null, (s, e) => new TestDomainForm(LogFilePath).Show());
             _contextMenuStrip.Items.Add("退出", null, (s, e) => Application.Exit());
             foreach (ToolStripItem item in _contextMenuStrip.Items)
@@ -110,6 +111,7 @@ namespace QLinkCleanerV2
         private void MainForm_Load(object sender, EventArgs e)
         {
             Size = new Size(684, 497);
+            StartPosition = FormStartPosition.CenterScreen;
             LoadSettings();
             materialSwitch_SwitchWatching_CheckedChanged(sender, e);
 

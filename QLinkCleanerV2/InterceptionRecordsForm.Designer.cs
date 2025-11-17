@@ -54,7 +54,7 @@
             materialListView_Records.TabIndex = 0;
             materialListView_Records.UseCompatibleStateImageBehavior = false;
             materialListView_Records.View = View.Details;
-            materialListView_Records.MouseClick += materialListView_Records_MouseClick;
+            materialListView_Records.MouseDoubleClick += materialListView_Records_MouseDoubleClick;
             // 
             // columnHeader_Time
             // 

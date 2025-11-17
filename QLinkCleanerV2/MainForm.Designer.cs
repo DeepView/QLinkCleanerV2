@@ -179,7 +179,7 @@
             materialDivider1.Location = new Point(3, 24);
             materialDivider1.MouseState = MaterialSkin.MouseState.HOVER;
             materialDivider1.Name = "materialDivider1";
-            materialDivider1.Size = new Size(694, 371);
+            materialDivider1.Size = new Size(710, 371);
             materialDivider1.TabIndex = 4;
             materialDivider1.Text = "materialDivider1";
             // 
@@ -275,7 +275,7 @@
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(700, 536);
+            ClientSize = new Size(716, 575);
             Controls.Add(materialLabel_CurrentStrategy);
             Controls.Add(materialLabel2);
             Controls.Add(materialLabel1);

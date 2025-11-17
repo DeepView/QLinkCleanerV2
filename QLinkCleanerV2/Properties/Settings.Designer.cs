@@ -93,5 +93,41 @@ namespace QLinkCleanerV2.Properties {
                 this["App_MaxRetryTimesWithDelShortcut"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("30")]
+        public int Log_MaxSaveCount {
+            get {
+                return ((int)(this["Log_MaxSaveCount"]));
+            }
+            set {
+                this["Log_MaxSaveCount"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Log_MaxSaveSize {
+            get {
+                return ((int)(this["Log_MaxSaveSize"]));
+            }
+            set {
+                this["Log_MaxSaveSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Log_LimitStrategy {
+            get {
+                return ((int)(this["Log_LimitStrategy"]));
+            }
+            set {
+                this["Log_LimitStrategy"] = value;
+            }
+        }
     }
 }
